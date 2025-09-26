@@ -2,7 +2,7 @@
 <html>
 
 <head>
-<title>CIE DeltaE Color Difference</title>
+<title>Color Difference Calculator</title>
 <meta charset="utf-8"/>
 
 <script>
@@ -31,12 +31,16 @@ function update() {
   // console.log ( "RGB: " + rgb1 + ", " + rgb2 );
   lab1 = rgb2lab ( rgb1 );
   lab2 = rgb2lab ( rgb2 );
-  // console.log ( "lab1: " + lab1 );
-  // console.log ( "lab2: " + lab2 );
-  // dE = deltaE94 ( lab1, lab2 );
-  dE = deltaE2000 ( lab1, lab2 );
-  // console.log ( "dE = " + dE );
-  document.getElementById('colordiff').value = dE;
+  document.getElementById('de2000').innerHTML = deltaE2000 ( lab1, lab2 );
+  document.getElementById('de94').innerHTML = deltaE94 ( lab1, lab2 );
+  document.getElementById('dist').innerHTML = dist ( cv1, cv2 );
+}
+
+function dist(cv1, cv2){
+  var dR = (((cv1>>16)&0xff) - ((cv2>>16)&0xff)) / 255.0;
+  var dG = (((cv1>>8)&0xff) - ((cv2>>8)&0xff)) / 255.0;
+  var dB = (((cv1>>0)&0xff) - ((cv2>>0)&0xff)) / 255.0;
+  return ( Math.sqrt ( (dR*dR) + (dG*dG) + (dB*dB) ) );
 }
 
 // Code from https://github.com/antimatter15/rgb-lab
@@ -205,7 +209,7 @@ function ciede_2000(l_1, a_1, b_1, l_2, a_2, b_2) {
 
 <center>
 
-<h1>CIE ΔE 2000 Color Difference</h1>
+<h1>Color Difference Calculator</h1>
 
 <table>
   <tr>
@@ -228,13 +232,15 @@ function ciede_2000(l_1, a_1, b_1, l_2, a_2, b_2) {
         <table>
           <tr>
             <td><input type="text" size="7" id="color1text"  value="ff00ff"  onchange="update()" width="75%"></input></td>
-            <td> - </td>
+            <td><center><input type="button" name="ref_model" value="Update" onclick="update()"></input></center></td>
             <td><input type="text" size="7" id="color2text"  value="ff0000"  onchange="update()" width="75%"></input></td>
-            <td> = </td>
-            <td><input type="text" size="16" id="colordiff"  value="?"  onchange="update()" width="75%"></input></td>
-            <td><input type="button" name="ref_model" value="Update" onclick="update()"></input></td>
           </tr>
         </table>
+        <p>
+        CIE ΔE 2000 = <span id="de2000"></span></br>
+        CIE ΔE 94 = <span id="de94"></span></br>
+        RGB Distance = <span id="dist"></span>
+        </p>
       </center>
     </td>
   </tr>
