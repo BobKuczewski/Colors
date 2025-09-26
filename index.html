@@ -40,7 +40,7 @@ function dist(cv1, cv2){
   var dR = (((cv1>>16)&0xff) - ((cv2>>16)&0xff)) / 255.0;
   var dG = (((cv1>>8)&0xff) - ((cv2>>8)&0xff)) / 255.0;
   var dB = (((cv1>>0)&0xff) - ((cv2>>0)&0xff)) / 255.0;
-  return ( Math.sqrt ( (dR*dR) + (dG*dG) + (dB*dB) ) );
+  return ( 100 * Math.sqrt ( (dR*dR) + (dG*dG) + (dB*dB) ) / Math.sqrt(3) );
 }
 
 // Code from https://github.com/antimatter15/rgb-lab
@@ -239,7 +239,7 @@ function ciede_2000(l_1, a_1, b_1, l_2, a_2, b_2) {
         <p>
         CIE ΔE 2000 = <span id="de2000"></span></br>
         CIE ΔE 94 = <span id="de94"></span></br>
-        RGB Distance = <span id="dist"></span>
+        Cube Distance = <span id="dist"></span>
         </p>
       </center>
     </td>
